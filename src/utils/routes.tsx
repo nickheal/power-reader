@@ -2,5 +2,6 @@ export enum Routes {
   Introduction = '/introduction',
   Setup = '/setup',
   Dashboard = '/',
-  Reader = '/reader'
+  CreateDocument = '/document/create',
+  Reader = '/document/read/:id'
 }
