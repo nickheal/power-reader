@@ -3,11 +3,17 @@ import { useParams } from 'react-router-dom';
 import { createUseStyles } from 'react-jss';
 import { useRecoilState } from 'recoil';
 import { userState } from '../state/user';
-import { documentToLines } from '../utils/document';
+import { documentToLines, getActiveLines } from '../utils/document';
+import Button from '../components/Button';
 
-const READ_SPEED = 1;
+const READ_SPEED = 0.17;
 
 const useStyles = createUseStyles({
+  '@global': {
+    body: {
+      background: 'linear-gradient(125deg, #ffffff, #f7f7f7) !important'
+    }
+  },
   readZone: {
     display: 'flex',
     justifyContent: 'center'
@@ -20,7 +26,12 @@ const useStyles = createUseStyles({
   },
   textLine: {
     fontSize: 24,
-    margin: 0
+    margin: [8, 0]
+  },
+  paraTextLine: {
+    fontSize: 24,
+    margin: [8, 0],
+    opacity: 0.2
   }
 });
 
@@ -33,9 +44,24 @@ export default function Dashboard() {
 
   if (!document) throw new Error(`Couldn't find document with ID ${id}`);
 
+  function onRestart() {
+    const eUser = user!;
+    const updateDocuments = [...eUser.documents];
+    updateDocuments[updateDocuments.indexOf(document!)] = {
+      ...updateDocuments[updateDocuments.indexOf(document!)],
+      readerPosition: 0
+    };
+    setUser({
+      ...eUser,
+      documents: updateDocuments
+    });
+  }
+
   const { content, name, readerPosition } = document;
 
   const lines = documentToLines(content);
+
+  const activeLines = getActiveLines(lines, readerPosition);
 
   useEffect(() => {
     if (document.readerPosition >= document.content.length) return;
@@ -56,17 +82,22 @@ export default function Dashboard() {
     return () => window.clearTimeout(timeout);
   }, [document, user, setUser]);
 
-  console.log(readerPosition);
-
   return (
     <main>
       <h1>Document reader</h1>
-      <h2>{ name }</h2>
-      <div className={classes.readZone}>
-        <div className={classes.readZoneCentered}>
-          {lines.map((line, index) => <p className={classes.textLine} key={index}>{ line }</p>)}
+      <section>
+        <Button onClick={onRestart}>Restart</Button>
+      </section>
+      <section>
+        <h2>{ name }</h2>
+        <div className={classes.readZone}>
+          <div className={classes.readZoneCentered}>
+            <p className={classes.paraTextLine}>{ activeLines[0] }</p>
+            <p className={classes.textLine}>{ activeLines[1] }</p>
+            <p className={classes.paraTextLine}>{ activeLines[2] }</p>
+          </div>
         </div>
-      </div>
+      </section>
     </main>
   );
 }

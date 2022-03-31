@@ -1,44 +1,71 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
+import { createUseStyles } from 'react-jss';
+import { Variant } from '../components/actionStyles';
 import { userState } from '../state/user';
+import Main from '../components/Main';
 import Link from '../components/Link';
 import { Routes } from '../utils/routes';
+import Heading, { Tag } from '../components/Heading';
 import Card from '../components/Card';
 import DocumentCard from '../components/DocumentCard';
 
-const CONTENT_PREVIEW_LENGTH = 128;
+const CONTENT_PREVIEW_LENGTH = 256;
+
+const useStyles = createUseStyles({
+  docGrid: {
+    alignContent: 'flex-start',
+    alignItems: 'flex-start',
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    listStyleType: 'none',
+    margin: 0,
+    padding: 0
+  }
+});
 
 export default function Dashboard() {
+  const classes = useStyles();
+
   const [user] = useRecoilState(userState);
 
   return (
-    <main>
-      <p>Welcome {user?.firstName}!</p>
+    <Main>
+      <Heading tag={Tag.H1}>Welcome {user?.firstName}!</Heading>
 
       {user?.documents?.length ? (
         <>
-          <ul>
+          <ul className={classes.docGrid}>
             {user.documents.map((document) => (
-              <DocumentCard header={document.name} key={document.id}>
-                { document.content.substring(document.readerPosition, CONTENT_PREVIEW_LENGTH) }{document.content.length >= CONTENT_PREVIEW_LENGTH ? '...' : ''}
-                { document.readerPosition }–{ document.content.length }
-                <Link to={Routes.Reader.replace(':id', document.id)}>
+              <DocumentCard
+                header={document.name}
+                key={document.id}
+                onDelete={() => {}}
+                progress={(document.readerPosition / document.content.length) * 100}
+              >
+                <p>
+                  { document.readerPosition - (CONTENT_PREVIEW_LENGTH / 2) > 0 ? '...' : '' }
+                  { document.content.substring(document.readerPosition - (CONTENT_PREVIEW_LENGTH / 2), document.readerPosition + (CONTENT_PREVIEW_LENGTH / 2)) }
+                  { document.content.length >= CONTENT_PREVIEW_LENGTH ? '...' : '' }
+                </p>
+                <Link to={Routes.Reader.replace(':id', document.id)} variant={Variant.Primary}>
                   {document.readerPosition !== 0 ? 'Continue reading' : 'Read now'}
                 </Link>
               </DocumentCard>
             ))}
           </ul>
           <Card>
-            Would you like to add another document?
-            <Link to={Routes.CreateDocument}>Yes please</Link>
+            <p>Would you like to add another document?</p>
+            <Link to={Routes.CreateDocument} variant={Variant.Primary}>Yes please</Link>
           </Card>
         </>
       ) : (
         <Card>
-          You haven't got any documents to read yet. Would you like to create one?
-          <Link to={Routes.CreateDocument}>Yes please</Link>
+          <p>You haven't got any documents to read yet. Would you like to create one?</p>
+          <Link to={Routes.CreateDocument} variant={Variant.Primary}>Yes please</Link>
         </Card>
       )}
-    </main>
+    </Main>
   );
 }

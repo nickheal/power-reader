@@ -1,10 +1,12 @@
 import React from 'react';
-import { useStyles } from './actionStyles';
+import { useStyles, Variant } from './actionStyles';
 
-interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: Variant
+}
 
 export default function Button(props: Props) {
-  const classes = useStyles();
+  const classes = useStyles({ ...props });
 
   return (
     <button
