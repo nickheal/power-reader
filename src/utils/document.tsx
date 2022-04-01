@@ -19,13 +19,25 @@ export function documentToLines(document: string, maxLineLength: number = 60) {
   return snipFirstLine(document, maxLineLength);
 }
 
-export function getActiveLines(lines: string[], readerPosition: number): string[] {
+type ActiveLines = {
+  activeLines: string[];
+  lineProgress: number;
+}
+
+export function getActiveLines(lines: string[], readerPosition: number): ActiveLines {
   let scanPosition = 0;
   for (let i = 0; i < lines.length; i++) {
     scanPosition += lines[i].length + 1; // The 1 is for the space at the end of the line
     const foundPosition = scanPosition >= readerPosition;
     if (foundPosition) {
-      return [lines[i - 1] || ' ', lines[i], lines[i + 1] || ' '];
+      const lineStart = scanPosition - (lines[i].length + 1);
+      const lineEnd = scanPosition;
+      const lineLength = lineEnd - lineStart;
+      const linePosition = readerPosition - lineStart;
+      return {
+        activeLines: [lines[i - 1] || ' ', lines[i], lines[i + 1] || ' '],
+        lineProgress: (linePosition / lineLength) * 100
+      };
     }
   }
   throw new Error(`Couldn't find reading position in document`);

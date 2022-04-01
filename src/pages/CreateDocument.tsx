@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
-import { createUser, userState } from '../state/user';
+import { userState } from '../state/user';
 import { Routes } from '../utils/routes';
 import Form from '../components/Form';
 import Input from '../components/Input';

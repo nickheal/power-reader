@@ -8,7 +8,7 @@ import Input from '../components/Input';
 import Button from '../components/Button';
 
 export default function Setup() {
-  const [_, setUser] = useRecoilState(userState);
+  const [, setUser] = useRecoilState(userState);
 
   const navigate = useNavigate();
 
