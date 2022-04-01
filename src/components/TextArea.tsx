@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { createUseStyles } from 'react-jss';
 import { FormContentContext, FormUpdateContext } from '../contexts/Form';
 
-interface Props extends React.HTMLProps<HTMLInputElement> {
+interface Props extends React.HTMLProps<HTMLTextAreaElement> {
   label: string;
 }
 
@@ -13,7 +13,8 @@ const useStyles = createUseStyles({
     margin: [0, 0, 8]
   },
   input: {
-    background: 0,
+    backdropFilter: 'blur(2px)',
+    background: '#ffffff0a',
     border: {
       color: '#ffffff33',
       width: [0, 0, 2, 0]
@@ -21,9 +22,14 @@ const useStyles = createUseStyles({
     color: '#ffffff',
     display: 'block',
     fontSize: 16,
+    fontFamily: 'Helvetica, Arial, sans-serif',
+    height: 640,
     margin: [0, 0, 32],
-    padding: 4,
+    maxWidth: 640,
+    padding: 8,
+    resize: 'none',
     transition: 'border-color 150ms ease-in-out',
+    width: '100%',
 
     '&:hover': {
       border: {
@@ -55,7 +61,7 @@ export default function Input(props: Props) {
   return (
     <>
       <label className={classes.label} htmlFor={props.name}>{ props.label }:</label>
-      <input
+      <textarea
         {...props}
         className={`${classes.input} ${props.className}`}
         value={value}

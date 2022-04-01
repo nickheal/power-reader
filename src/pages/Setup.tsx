@@ -21,7 +21,7 @@ export default function Setup() {
     <main>
       <Form onSubmit={onSubmit}>
         <p>Setup!</p>
-        <Input name="firstName" required />
+        <Input label="First name" name="firstName" required />
         <Button>Get started</Button>
       </Form>
     </main>
