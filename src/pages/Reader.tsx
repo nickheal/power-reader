@@ -6,7 +6,7 @@ import { userState } from '../state/user';
 import { documentToLines, getActiveLines } from '../utils/document';
 import PlayerControls from '../components/PlayerControls';
 
-const READ_SPEED = 0.17;
+const READ_SPEED = 0.15;
 
 type Styles = {
   lineProgress: number;
@@ -20,7 +20,7 @@ const useStyles = createUseStyles({
   },
   controlsContainer: {
     margin: [32, 0, 160],
-    opacity: 0.4,
+    opacity: 0.1,
     padding: 16,
     textAlign: 'center',
     transition: 'opacity 300ms ease-in-out',
@@ -35,7 +35,7 @@ const useStyles = createUseStyles({
   },
   readZoneCentered: {
     border: 0,
-    borderLeft: 'solid 2px #333333aa',
+    borderLeft: 'solid 2px #33333333',
     display: 'inline-block',
     padding: [16, 32]
   },
@@ -127,7 +127,11 @@ export default function Dashboard() {
   const { activeLines, lineProgress } = getActiveLines(lines, readerPosition);
 
   useEffect(() => {
-    if (!isPlaying || document.readerPosition >= document.content.length) return;
+    if (!isPlaying) return;
+    if (document.readerPosition >= document.content.length) {
+      setIsPlaying(false);
+      return;
+    };
   
     const timeout = window.setTimeout(() => {
       const eUser = user!;

@@ -28,6 +28,10 @@ export const useStyles = createUseStyles({
     '&:hover, &:focus': {
       boxShadow: '3px 3px 7px #00000010',
       transform: 'scale(1.01)'
+    },
+
+    '& > svg': {
+      display: 'block'
     }
   }
 });
