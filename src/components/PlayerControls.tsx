@@ -1,4 +1,5 @@
 import React from 'react';
+import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import { FiFastForward, FiGrid, FiPlay, FiPause, FiRewind, FiRotateCcw } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { createUseStyles } from 'react-jss';
@@ -11,6 +12,8 @@ type Props = {
   onFastForward: () => void;
   onRestart: () => void;
 }
+
+const TRANSITION_TIME = 150;
 
 const useStyles = createUseStyles({
   button: {
@@ -27,8 +30,31 @@ const useStyles = createUseStyles({
     padding: [8, 10],
     verticalAlign: 'middle',
 
-    '& > svg': {
+    '& svg': {
       display: 'block'
+    }
+  },
+  buttonTransition: {
+    '&-enter': {
+      transform: 'scale(0)'
+    },
+
+    '&-enter-active': {
+      transform: 'scale(1)',
+      transition: `transform ${TRANSITION_TIME}ms cubic-bezier(0.34, 1.56, 0.64, 1)`
+    },
+
+    '&-enter-done': {
+      transform: 'scale(1)'
+    },
+
+    '&-exit': {
+      transform: 'scale(1)'
+    },
+
+    '&-exit-active': {
+      transform: 'scale(0)',
+      transition: `transform ${TRANSITION_TIME}ms cubic-bezier(0.34, 1.56, 0.64, 1)`
     }
   }
 });
@@ -36,11 +62,23 @@ const useStyles = createUseStyles({
 export default function PlayerControls(props: Props) {
   const classes = useStyles();
 
+  console.log(classes);
+
   return (
     <>
       <Link className={classes.button} to={Routes.Dashboard}><FiGrid /></Link>
       <button className={classes.button} onClick={props.onRewind}><FiRewind /></button>
-      <button className={classes.button} onClick={props.onPlayPause}>{props.isPlaying ? <FiPause /> : <FiPlay />}</button>
+      <button className={classes.button} onClick={props.onPlayPause}>
+        <SwitchTransition>
+          <CSSTransition
+            key={props.isPlaying ? 'true' : 'false'}
+            timeout={TRANSITION_TIME}
+            classNames={classes.buttonTransition}
+          >
+            {props.isPlaying ? <FiPause /> : <FiPlay />}
+          </CSSTransition>
+        </SwitchTransition>
+      </button>
       <button className={classes.button} onClick={props.onFastForward}><FiFastForward /></button>
       <button className={classes.button} onClick={props.onRestart}><FiRotateCcw /></button>
     </>
