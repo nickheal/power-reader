@@ -3,11 +3,13 @@ import { FormContentContext, FormUpdateContext, FormReturn, FormEntry } from '..
 
 interface Props extends Omit<React.HTMLProps<HTMLFormElement>, 'onSubmit'> {
   children?: React.ReactNode,
+  initialState?: { [key: string]: string } | null;
   onSubmit?: (content: FormReturn) => void;
 }
 
 export default function Form(props: Props = {}) {
-  const [formContentState, setFormContentState] = useState<FormEntry[]>([]);
+  const firstState = props.initialState ? Object.keys(props.initialState).map(key => ({ id: key, value: props.initialState![key] })) : [];
+  const [formContentState, setFormContentState] = useState<FormEntry[]>(firstState);
 
   function updateState(name: string, value: string) {
     const preexistingState = formContentState.find(({ id }) => id === name);
@@ -37,10 +39,15 @@ export default function Form(props: Props = {}) {
     }
   }
 
+  const {
+    initialState,
+    ...formProps
+  } = props;
+
   return (
     <FormUpdateContext.Provider value={updateState}>
       <FormContentContext.Provider value={formContentState}>
-        <form {...props} onSubmit={onSubmit} />
+        <form {...formProps} onSubmit={onSubmit} />
       </FormContentContext.Provider>
     </FormUpdateContext.Provider>
   )

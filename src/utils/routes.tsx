@@ -3,5 +3,6 @@ export enum Routes {
   Setup = '/setup',
   Dashboard = '/',
   CreateDocument = '/document/create',
+  EditDocument = '/document/edit/:id',
   Reader = '/document/read/:id'
 }

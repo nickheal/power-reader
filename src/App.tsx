@@ -38,6 +38,7 @@ function App() {
         <Route path={Routes.Setup} element={<Setup />} />
         <Route path={Routes.Dashboard} element={<Dashboard />} />
         <Route path={Routes.CreateDocument} element={<CreateDocument />} />
+        <Route path={Routes.EditDocument} element={<CreateDocument />} />
         <Route path={Routes.Reader} element={<Reader />} />
       </RouterRoutes>
     </BrowserRouter>

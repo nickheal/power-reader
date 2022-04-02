@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 import { createUseStyles } from 'react-jss';
 import { Variant } from '../components/actionStyles';
 import { userState } from '../state/user';
@@ -27,10 +28,17 @@ const useStyles = createUseStyles({
 });
 
 export default function Dashboard() {
+  const navigate = useNavigate();
+  const [user, setUser] = useRecoilState(userState);
+
+  function onDelete(id: string) {
+    setUser({
+      ...user!,
+      documents: user!.documents.filter((document) => document.id !== id)
+    });
+  }
+  
   const classes = useStyles();
-
-  const [user] = useRecoilState(userState);
-
   return (
     <Main>
       <Heading tag={Tag.H1}>Welcome {user?.firstName}!</Heading>
@@ -42,8 +50,8 @@ export default function Dashboard() {
               <DocumentCard
                 header={document.name}
                 key={document.id}
-                onEdit={() => {}}
-                onDelete={() => {}}
+                onEdit={() => navigate(Routes.EditDocument.replace(':id', document.id))}
+                onDelete={() => onDelete(document.id)}
                 progress={(document.readerPosition / document.content.length) * 100}
                 secondsRemaining={(document.content.length - document.readerPosition) / LETTERS_PER_SECOND}
               >
