@@ -23,7 +23,7 @@ const useStyles = createUseStyles({
     display: 'block',
     fontSize: 16,
     fontFamily: 'Helvetica, Arial, sans-serif',
-    height: 640,
+    height: 580,
     margin: [0, 0, 32],
     maxWidth: 640,
     padding: 8,

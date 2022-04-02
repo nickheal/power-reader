@@ -4,13 +4,14 @@ import { useRecoilState } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
 import { userState } from '../state/user';
 import { Routes } from '../utils/routes';
-import Main from '../components/Main';
-import Heading, { Tag } from '../components/Heading';
-import Form from '../components/Form';
-import Input from '../components/Input';
-import TextArea from '../components/TextArea';
 import Button from '../components/Button';
+import { Variant } from '../components/actionStyles';
+import Form from '../components/Form';
+import Heading, { Tag } from '../components/Heading';
+import Input from '../components/Input';
 import Link from '../components/Link';
+import Main from '../components/Main';
+import TextArea from '../components/TextArea';
 
 export default function CreateDocument() {
   const [user, setUser] = useRecoilState(userState);
@@ -52,8 +53,8 @@ export default function CreateDocument() {
         <Heading tag={Tag.H1}>{ existingDocument ? 'Edit document' : 'New document' }</Heading>
         <Input label="Name" name="name" required />
         <TextArea label="Content" name="content" type="textarea" required />
-        <Button>{ existingDocument ? 'Save' : 'Create' }</Button>
-        <Link to={Routes.Dashboard}>Cancel</Link>
+        <Button variant={Variant.Tertiary}>{ existingDocument ? 'Save' : 'Create' }</Button>
+        <Link to={Routes.Dashboard} variant={Variant.Tertiary}>Cancel</Link>
       </Form>
     </Main>
   );

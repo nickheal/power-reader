@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { createUser, userState } from '../state/user';
 import { Routes } from '../utils/routes';
+import Button from '../components/Button';
+import { Variant } from '../components/actionStyles';
+import Heading, { Tag } from '../components/Heading';
+import Main from '../components/Main';
 import Form from '../components/Form';
 import Input from '../components/Input';
-import Button from '../components/Button';
 
 export default function Setup() {
   const [, setUser] = useRecoilState(userState);
@@ -18,12 +21,12 @@ export default function Setup() {
   }
 
   return (
-    <main>
+    <Main>
       <Form onSubmit={onSubmit}>
-        <p>Setup!</p>
+        <Heading tag={Tag.H1}>Setup</Heading>
         <Input label="First name" name="firstName" required />
-        <Button>Get started</Button>
+        <Button variant={Variant.Tertiary}>Get started</Button>
       </Form>
-    </main>
+    </Main>
   );
 }
