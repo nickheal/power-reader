@@ -3,10 +3,10 @@ import { useParams } from 'react-router-dom';
 import { createUseStyles } from 'react-jss';
 import { useRecoilState } from 'recoil';
 import { userState } from '../state/user';
-import { documentToLines, getActiveLines } from '../utils/document';
+import { documentToLines, getActiveLines, LETTERS_PER_SECOND } from '../utils/document';
 import PlayerControls from '../components/PlayerControls';
 
-const READ_SPEED = 0.15;
+const READ_SPEED = 1 / LETTERS_PER_SECOND;
 
 type Styles = {
   lineProgress: number;
@@ -15,7 +15,7 @@ type Styles = {
 const useStyles = createUseStyles({
   '@global': {
     body: {
-      background: 'linear-gradient(125deg, #ffffff, #f7f7f7) !important'
+      background: 'linear-gradient(125deg, #ffffff, #f0f0f0) !important'
     }
   },
   controlsContainer: {
@@ -144,7 +144,7 @@ export default function Dashboard() {
         ...eUser,
         documents: updateDocuments
       });
-    }, READ_SPEED * 100);
+    }, READ_SPEED * 1000);
 
     return () => window.clearTimeout(timeout);
   }, [document, isPlaying, user, setUser]);

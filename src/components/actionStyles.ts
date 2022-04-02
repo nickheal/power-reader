@@ -21,7 +21,7 @@ export const useStyles = createUseStyles({
     cursor: 'pointer',
     display: 'inline-block',
     margin: 0,
-    padding: [8, 12],
+    padding: [10, 12],
     textDecoration: 'none',
     transition: 'box-shadow 300ms cubic-bezier(0.34, 1.56, 0.64, 1), transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1)',
 

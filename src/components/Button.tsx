@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStyles, Variant } from './actionStyles';
 
-interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant
 }
 

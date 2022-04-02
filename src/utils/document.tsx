@@ -1,3 +1,5 @@
+export const LETTERS_PER_SECOND = 60;
+
 function snipFirstLine(document: string, maxLineLength: number): string[] {
   for (let i = maxLineLength; i >= 0; i--) {
     const finishedDocument = !document[i];

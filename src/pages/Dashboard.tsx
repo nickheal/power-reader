@@ -9,6 +9,7 @@ import { Routes } from '../utils/routes';
 import Heading, { Tag } from '../components/Heading';
 import Card from '../components/Card';
 import DocumentCard from '../components/DocumentCard';
+import { LETTERS_PER_SECOND } from '../utils/document';
 
 const CONTENT_PREVIEW_LENGTH = 256;
 
@@ -41,8 +42,10 @@ export default function Dashboard() {
               <DocumentCard
                 header={document.name}
                 key={document.id}
+                onEdit={() => {}}
                 onDelete={() => {}}
                 progress={(document.readerPosition / document.content.length) * 100}
+                secondsRemaining={(document.content.length - document.readerPosition) / LETTERS_PER_SECOND}
               >
                 <p>
                   { document.readerPosition - (CONTENT_PREVIEW_LENGTH / 2) > 0 ? '...' : '' }
