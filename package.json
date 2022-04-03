@@ -1,5 +1,6 @@
 {
   "name": "power-reader",
+  "homepage": "https://nickheal.github.io/power-reader/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

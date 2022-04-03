@@ -34,7 +34,7 @@ function App() {
   useStyles();
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/power-reader">
       <RouterRoutes>
         <Route path={Routes.Introduction} element={<Introduction />} />
         <Route path={Routes.Setup} element={<Setup />} />
