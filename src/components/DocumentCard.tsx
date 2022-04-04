@@ -17,13 +17,27 @@ const useStyles = createUseStyles({
   container: {
     borderRadius: 8,
     boxShadow: '3px 3px 10px #00000011',
-    margin: [0, 0, 32, '2%'],
-    maxWidth: '32%',
+    margin: [0, 0, 32],
+    maxWidth: '100%',
     overflow: 'hidden',
     width: '100%',
 
-    '&:nth-child(3n - 2)': {
-      marginLeft: 0
+    '@media screen and (min-width: 768px) and (max-width: 1023px)': {
+      margin: [0, 0, 32, '2%'],
+      maxWidth: '49%',
+
+      '&:nth-child(2n - 1)': {
+        marginLeft: 0
+      }
+    },
+
+    '@media screen and (min-width: 1024px)': {
+      margin: [0, 0, 32, '2%'],
+      maxWidth: '32%',
+
+      '&:nth-child(3n - 2)': {
+        marginLeft: 0
+      }
     },
 
     '&.enter': {
