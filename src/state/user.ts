@@ -29,9 +29,9 @@ export const userState = atom<User>({
 export const useUserState = () => {
   const currentUserState = useRecoilState(userState);
 
-  const [user, setUser] = currentUserState;
+  const [user] = currentUserState;
 
-  if (typeof window !== undefined && !user.firstName) {
+  if (typeof window !== 'undefined' && !user.firstName) {
     navigate(Routes.Introduction);
   }
 

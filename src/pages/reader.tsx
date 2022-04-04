@@ -127,7 +127,7 @@ export default function Dashboard() {
   const { activeLines, lineProgress } = getActiveLines(lines, readerPosition);
 
   useEffect(() => {
-    if (!isPlaying || !window) return;
+    if (!isPlaying || typeof window === 'undefined') return;
     if (document.readerPosition >= document.content.length) {
       setIsPlaying(false);
       return;
