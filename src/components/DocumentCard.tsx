@@ -60,7 +60,7 @@ const useStyles = createUseStyles({
     color: '#ffffff',
     display: 'flex',
     justifyContent: 'space-between',
-    padding: 16,
+    padding: [20, 16],
     position: 'relative',
     textAlign: 'right'
   },
@@ -85,6 +85,11 @@ const useStyles = createUseStyles({
     width: (props: Props) => `${props.progress}%`
   },
   actionContainer: {
+    position: 'absolute',
+    right: 8,
+    top: '50%',
+    transform: 'translateY(-50%)',
+  
     '& > *': {
       margin: [0, 4]
     }
