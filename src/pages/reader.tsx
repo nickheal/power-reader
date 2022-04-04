@@ -134,7 +134,6 @@ export default function Dashboard() {
     };
   
     const timeout = window.setTimeout(() => {
-      const user = user;
       const updateDocuments = [...user.documents];
       updateDocuments[updateDocuments.indexOf(document)] = {
         ...updateDocuments[updateDocuments.indexOf(document)],
