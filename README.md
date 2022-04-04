@@ -2,6 +2,8 @@
 
 _Use the site here: [https://nickheal.github.io/power-reader/](https://nickheal.github.io/power-reader/)_
 
+<img src="./docs/readme.png">
+
 ## About
 
 _To see the purpose of the site read the introduction here [https://nickheal.github.io/power-reader/](https://nickheal.github.io/power-reader/)._
