@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { navigate } from 'gatsby';
 import { createUseStyles } from 'react-jss';
 import { Routes } from '../utils/routes';
-import { ususerState } from '../state/user';
+import { useUserState } from '../state/user';
 import { documentToLines, getActiveLines, getDocument, LETTERS_PER_SECOND } from '../utils/document';
 import PlayerControls from '../components/PlayerControls';
 
@@ -69,7 +69,7 @@ const useStyles = createUseStyles({
 });
 
 export default function Dashboard() {
-  const [user, setUser] = ususerState();
+  const [user, setUser] = useUserState();
   const [isPlaying, setIsPlaying] = useState(false);
 
   const document = getDocument(user);
