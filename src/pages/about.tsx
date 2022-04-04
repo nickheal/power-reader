@@ -32,6 +32,11 @@ export default function Introduction() {
             Different styles of reader to trial (eg. constant horizontal scroll).
           </P>
         </li>
+        <li>
+          <P>
+            Improved 404 page.
+          </P>
+        </li>
       </ul>
       <Link to={Routes.Dashboard} variant={Variant.Tertiary}>Home</Link>
     </StandardPage>
