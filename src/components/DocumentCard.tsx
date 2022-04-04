@@ -60,9 +60,9 @@ const useStyles = createUseStyles({
     color: '#ffffff',
     display: 'flex',
     justifyContent: 'space-between',
-    padding: [20, 16],
+    padding: [20, 128, 20, 16],
     position: 'relative',
-    textAlign: 'right'
+    textAlign: 'left'
   },
   title: {
     fontSize: 20,
