@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { Link } from 'gatsby'
 import Heading, { Tag } from '../components/Heading';
-import Main from '../components/Main';
+import StandardPage from '../components/StandardPage';
 
 // markup
 const NotFoundPage = () => {
   return (
-    <Main>
+    <StandardPage>
       <Heading tag={Tag.H1}>404</Heading>
       <h1>Page not found</h1>
       <p>
@@ -26,7 +26,7 @@ const NotFoundPage = () => {
         <br />
         <Link to="/">Go home</Link>.
       </p>
-    </Main>
+    </StandardPage>
   )
 }
 

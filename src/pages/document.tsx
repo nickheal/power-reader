@@ -11,7 +11,7 @@ import Form from '../components/Form';
 import Heading, { Tag } from '../components/Heading';
 import Input from '../components/Input';
 import Link from '../components/Link';
-import Main from '../components/Main';
+import StandardPage from '../components/StandardPage';
 import TextArea from '../components/TextArea';
 
 export default function CreateDocument() {
@@ -46,7 +46,7 @@ export default function CreateDocument() {
   }
 
   return (
-    <Main>
+    <StandardPage>
       <Form initialState={existingDocument ? { name: existingDocument.name, content: existingDocument.content } : null} onSubmit={onSubmit}>
         <Heading tag={Tag.H1}>{ existingDocument ? 'Edit document' : 'New document' }</Heading>
         <Input label="Name" name="name" required />
@@ -54,6 +54,6 @@ export default function CreateDocument() {
         <Button variant={Variant.Tertiary}>{ existingDocument ? 'Save' : 'Create' }</Button>
         <Link to={Routes.Dashboard} variant={Variant.Tertiary}>Cancel</Link>
       </Form>
-    </Main>
+    </StandardPage>
   );
 }

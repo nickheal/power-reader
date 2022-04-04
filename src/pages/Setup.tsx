@@ -6,7 +6,7 @@ import { Routes } from '../utils/routes';
 import Button from '../components/Button';
 import { Variant } from '../components/actionStyles';
 import Heading, { Tag } from '../components/Heading';
-import Main from '../components/Main';
+import StandardPage from '../components/StandardPage';
 import Form from '../components/Form';
 import Input from '../components/Input';
 
@@ -19,12 +19,12 @@ export default function Setup() {
   }
 
   return (
-    <Main>
+    <StandardPage>
       <Form onSubmit={onSubmit}>
         <Heading tag={Tag.H1}>Setup</Heading>
         <Input label="First name" name="firstName" required />
         <Button variant={Variant.Tertiary}>Get started</Button>
       </Form>
-    </Main>
+    </StandardPage>
   );
 }
