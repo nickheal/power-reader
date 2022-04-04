@@ -1,7 +1,7 @@
 import React from 'react';
+import { Link } from 'gatsby';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import { FiFastForward, FiGrid, FiPlay, FiPause, FiRewind, FiRotateCcw } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
 import { createUseStyles } from 'react-jss';
 import { Routes } from '../utils/routes';
 
@@ -61,8 +61,6 @@ const useStyles = createUseStyles({
 
 export default function PlayerControls(props: Props) {
   const classes = useStyles();
-
-  console.log(classes);
 
   return (
     <>

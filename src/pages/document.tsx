@@ -1,9 +1,10 @@
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { navigate } from 'gatsby';
 import { useRecoilState } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
 import { userState } from '../state/user';
 import { Routes } from '../utils/routes';
+import { getDocument } from '../utils/document';
 import Button from '../components/Button';
 import { Variant } from '../components/actionStyles';
 import Form from '../components/Form';
@@ -15,11 +16,8 @@ import TextArea from '../components/TextArea';
 
 export default function CreateDocument() {
   const [user, setUser] = useRecoilState(userState);
-  const { id } = useParams();
 
-  const existingDocument = id ? user?.documents.find(document => document.id === id) : null;
-
-  const navigate = useNavigate();
+  const existingDocument = getDocument(user!);
 
   function onSubmit(data: any) {
     const newDocument = {

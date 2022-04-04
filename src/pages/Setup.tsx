@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { navigate } from 'gatsby';
 import { useRecoilState } from 'recoil';
 import { createUser, userState } from '../state/user';
 import { Routes } from '../utils/routes';
@@ -12,8 +12,6 @@ import Input from '../components/Input';
 
 export default function Setup() {
   const [, setUser] = useRecoilState(userState);
-
-  const navigate = useNavigate();
 
   function onSubmit(data: any) {
     setUser(createUser({ firstName: data.firstName }));

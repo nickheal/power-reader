@@ -1,3 +1,5 @@
+import { User } from '../state/user';
+
 export const LETTERS_PER_SECOND = 60;
 
 function snipFirstLine(document: string, maxLineLength: number): string[] {
@@ -43,4 +45,14 @@ export function getActiveLines(lines: string[], readerPosition: number): ActiveL
     }
   }
   throw new Error(`Couldn't find reading position in document`);
+}
+
+export function getDocument(user: User) {
+  if (typeof window !== 'undefined') {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    return user.documents.find(document => document.id === urlParams.get('id'))
+  }
+
+  return null;
 }
