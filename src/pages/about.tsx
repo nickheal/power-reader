@@ -11,8 +11,28 @@ export default function Introduction() {
     <StandardPage>
       <Heading tag={Tag.H1}>About</Heading>
       <P>
-        ...
+        This is an open source project. You can find a link to the source code in the footer.
       </P>
+
+      <Heading tag={Tag.H2}>Roadmap</Heading>
+      <P>Here is a loose set of items currently on my roadmap for this site.</P>
+      <ul>
+        <li>
+          <P>
+            Customisable read speed.
+          </P>
+        </li>
+        <li>
+          <P>
+            Mobile support.
+          </P>
+        </li>
+        <li>
+          <P>
+            Different styles of reader to trial (eg. constant horizontal scroll).
+          </P>
+        </li>
+      </ul>
       <Link to={Routes.Dashboard} variant={Variant.Tertiary}>Home</Link>
     </StandardPage>
   );

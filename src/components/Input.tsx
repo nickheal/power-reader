@@ -22,8 +22,10 @@ const useStyles = createUseStyles({
     display: 'block',
     fontSize: 16,
     margin: [0, 0, 32],
+    maxWidth: 640,
     padding: 4,
     transition: 'border-color 150ms ease-in-out',
+    width: '100%',
 
     '&:hover': {
       border: {

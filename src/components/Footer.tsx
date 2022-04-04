@@ -20,6 +20,10 @@ const useStyles = createUseStyles({
 
     '&:hover, &:focus': {
       opacity: 1
+    },
+
+    '& > svg': {
+      verticalAlign: 'middle'
     }
   }
 });
