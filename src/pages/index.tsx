@@ -1,10 +1,10 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { useNavigate } from 'react-router-dom';
+import { navigate } from 'gatsby';
 import { createUseStyles } from 'react-jss';
 import { Variant } from '../components/actionStyles';
 import { userState } from '../state/user';
-import Main from '../components/Main';
+import StandardPage from '../components/StandardPage';
 import Link from '../components/Link';
 import { Routes } from '../utils/routes';
 import Heading, { Tag } from '../components/Heading';
@@ -28,7 +28,6 @@ const useStyles = createUseStyles({
 });
 
 export default function Dashboard() {
-  const navigate = useNavigate();
   const [user, setUser] = useRecoilState(userState);
 
   function onDelete(id: string) {
@@ -40,7 +39,7 @@ export default function Dashboard() {
   
   const classes = useStyles();
   return (
-    <Main>
+    <StandardPage>
       <Heading tag={Tag.H1}>Welcome {user?.firstName}!</Heading>
 
       {user?.documents?.length ? (
@@ -50,7 +49,7 @@ export default function Dashboard() {
               <DocumentCard
                 header={document.name}
                 key={document.id}
-                onEdit={() => navigate(Routes.EditDocument.replace(':id', document.id))}
+                onEdit={() => navigate(Routes.EditDocument.replace('{id}', document.id))}
                 onDelete={() => onDelete(document.id)}
                 progress={(document.readerPosition / document.content.length) * 100}
                 secondsRemaining={(document.content.length - document.readerPosition) / LETTERS_PER_SECOND}
@@ -60,7 +59,7 @@ export default function Dashboard() {
                   { document.content.substring(document.readerPosition - (CONTENT_PREVIEW_LENGTH / 2), document.readerPosition + (CONTENT_PREVIEW_LENGTH / 2)) }
                   { document.content.length >= CONTENT_PREVIEW_LENGTH ? '...' : '' }
                 </p>
-                <Link to={Routes.Reader.replace(':id', document.id)} variant={Variant.Primary}>
+                <Link to={Routes.Reader.replace('{id}', document.id)} variant={Variant.Primary}>
                   {document.readerPosition !== 0 ? 'Continue reading' : 'Read now'}
                 </Link>
               </DocumentCard>
@@ -77,6 +76,6 @@ export default function Dashboard() {
           <Link to={Routes.CreateDocument} variant={Variant.Primary}>Yes please</Link>
         </Card>
       )}
-    </Main>
+    </StandardPage>
   );
 }

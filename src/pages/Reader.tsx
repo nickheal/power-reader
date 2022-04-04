@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { navigate } from 'gatsby';
 import { createUseStyles } from 'react-jss';
 import { useRecoilState } from 'recoil';
+import { Routes } from '../utils/routes';
 import { userState } from '../state/user';
-import { documentToLines, getActiveLines, LETTERS_PER_SECOND } from '../utils/document';
+import { documentToLines, getActiveLines, getDocument, LETTERS_PER_SECOND } from '../utils/document';
 import PlayerControls from '../components/PlayerControls';
 
 const READ_SPEED = 1 / LETTERS_PER_SECOND;
@@ -71,11 +72,14 @@ const useStyles = createUseStyles({
 export default function Dashboard() {
   const [user, setUser] = useRecoilState(userState);
   const [isPlaying, setIsPlaying] = useState(false);
-  const { id } = useParams();
 
-  const document = user?.documents?.find(document => document.id === id);
+  const document = getDocument(user!);
 
-  if (!document) throw new Error(`Couldn't find document with ID ${id}`);
+  if (!document) {
+    console.error("Couldn't find document with this ID");
+    if (typeof window !== 'undefined') navigate(Routes.Dashboard);
+    return <main />;
+  }
 
   function onPlayPause() {
     setIsPlaying(!isPlaying);
@@ -127,7 +131,7 @@ export default function Dashboard() {
   const { activeLines, lineProgress } = getActiveLines(lines, readerPosition);
 
   useEffect(() => {
-    if (!isPlaying) return;
+    if (!isPlaying || !window) return;
     if (document.readerPosition >= document.content.length) {
       setIsPlaying(false);
       return;
