@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { navigate } from 'gatsby';
 import { createUseStyles } from 'react-jss';
-import { useRecoilState } from 'recoil';
 import { Routes } from '../utils/routes';
-import { userState } from '../state/user';
+import { ususerState } from '../state/user';
 import { documentToLines, getActiveLines, getDocument, LETTERS_PER_SECOND } from '../utils/document';
 import PlayerControls from '../components/PlayerControls';
 
@@ -70,10 +69,10 @@ const useStyles = createUseStyles({
 });
 
 export default function Dashboard() {
-  const [user, setUser] = useRecoilState(userState);
+  const [user, setUser] = ususerState();
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const document = getDocument(user!);
+  const document = getDocument(user);
 
   if (!document) {
     console.error("Couldn't find document with this ID");
@@ -86,40 +85,37 @@ export default function Dashboard() {
   }
 
   function onRewind() {
-    const eUser = user!;
-    const updateDocuments = [...eUser.documents];
+    const updateDocuments = [...user.documents];
     updateDocuments[updateDocuments.indexOf(document!)] = {
       ...updateDocuments[updateDocuments.indexOf(document!)],
       readerPosition: Math.max(document!.readerPosition - 100, 0)
     };
     setUser({
-      ...eUser,
+      ...user,
       documents: updateDocuments
     });
   }
 
   function onFastForward() {
-    const eUser = user!;
-    const updateDocuments = [...eUser.documents];
+    const updateDocuments = [...user.documents];
     updateDocuments[updateDocuments.indexOf(document!)] = {
       ...updateDocuments[updateDocuments.indexOf(document!)],
       readerPosition: Math.min(document!.readerPosition + 100, document!.content.length)
     };
     setUser({
-      ...eUser,
+      ...user,
       documents: updateDocuments
     });
   }
 
   function onRestart() {
-    const eUser = user!;
-    const updateDocuments = [...eUser.documents];
+    const updateDocuments = [...user.documents];
     updateDocuments[updateDocuments.indexOf(document!)] = {
       ...updateDocuments[updateDocuments.indexOf(document!)],
       readerPosition: 0
     };
     setUser({
-      ...eUser,
+      ...user,
       documents: updateDocuments
     });
   }
@@ -138,14 +134,14 @@ export default function Dashboard() {
     };
   
     const timeout = window.setTimeout(() => {
-      const eUser = user!;
-      const updateDocuments = [...eUser.documents];
+      const user = user;
+      const updateDocuments = [...user.documents];
       updateDocuments[updateDocuments.indexOf(document)] = {
         ...updateDocuments[updateDocuments.indexOf(document)],
         readerPosition: updateDocuments[updateDocuments.indexOf(document)].readerPosition + 1
       };
       setUser({
-        ...eUser,
+        ...user,
         documents: updateDocuments
       });
     }, READ_SPEED * 1000);

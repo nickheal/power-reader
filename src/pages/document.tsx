@@ -1,8 +1,7 @@
 import React from 'react';
 import { navigate } from 'gatsby';
-import { useRecoilState } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
-import { userState } from '../state/user';
+import { useUserState } from '../state/user';
 import { Routes } from '../utils/routes';
 import { getDocument } from '../utils/document';
 import Button from '../components/Button';
@@ -15,7 +14,7 @@ import StandardPage from '../components/StandardPage';
 import TextArea from '../components/TextArea';
 
 export default function CreateDocument() {
-  const [user, setUser] = useRecoilState(userState);
+  const [user, setUser] = useUserState();
 
   const existingDocument = getDocument(user!);
 

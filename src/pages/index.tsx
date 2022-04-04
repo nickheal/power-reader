@@ -1,9 +1,8 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
 import { navigate } from 'gatsby';
 import { createUseStyles } from 'react-jss';
 import { Variant } from '../components/actionStyles';
-import { userState } from '../state/user';
+import { useUserState } from '../state/user';
 import StandardPage from '../components/StandardPage';
 import Link from '../components/Link';
 import { Routes } from '../utils/routes';
@@ -28,12 +27,12 @@ const useStyles = createUseStyles({
 });
 
 export default function Dashboard() {
-  const [user, setUser] = useRecoilState(userState);
+  const [user, setUser] = useUserState();
 
   function onDelete(id: string) {
     setUser({
-      ...user!,
-      documents: user!.documents.filter((document) => document.id !== id)
+      ...user,
+      documents: user.documents.filter((document) => document.id !== id)
     });
   }
   
