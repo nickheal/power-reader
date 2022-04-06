@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { navigate } from 'gatsby';
 import { createUseStyles } from 'react-jss';
 import { Variant } from '../components/actionStyles';
@@ -9,7 +9,8 @@ import { Routes } from '../utils/routes';
 import Heading, { Tag } from '../components/Heading';
 import Card from '../components/Card';
 import DocumentCard from '../components/DocumentCard';
-import { LETTERS_PER_SECOND } from '../utils/document';
+import MultiDocModeBanner from '../components/MultiDocModeBanner';
+import { LETTERS_PER_SECOND, MAX_DOCS_FOR_MULTI_DOC } from '../utils/document';
 
 const CONTENT_PREVIEW_LENGTH = 256;
 
@@ -28,13 +29,26 @@ const useStyles = createUseStyles({
 
 export default function Dashboard() {
   const [user, setUser] = useUserState();
+  const [multiDocSelect, setMultiDocSelect] = useState(new Set<string>());
+  
+  function onCheckSelect(id: string) {
+    if (multiDocSelect.has(id)) {
+      multiDocSelect.delete(id);
+    } else {
+      multiDocSelect.add(id);
+    }
+    setMultiDocSelect(new Set<string>(multiDocSelect));
+  }
 
   function onDelete(id: string) {
+    if (multiDocSelect.has(id)) onCheckSelect(id);
+
     setUser({
       ...user,
       documents: user.documents.filter((document) => document.id !== id)
     });
   }
+
   
   const classes = useStyles();
   return (
@@ -43,6 +57,7 @@ export default function Dashboard() {
 
       {user?.documents?.length ? (
         <>
+          <MultiDocModeBanner active={multiDocSelect.size === MAX_DOCS_FOR_MULTI_DOC} docs={multiDocSelect} />
           <ul className={classes.docGrid}>
             {user.documents.map((document) => (
               <DocumentCard
@@ -50,6 +65,8 @@ export default function Dashboard() {
                 key={document.id}
                 onEdit={() => navigate(Routes.EditDocument.replace('{id}', document.id))}
                 onDelete={() => onDelete(document.id)}
+                onCheckSelect={multiDocSelect.size < MAX_DOCS_FOR_MULTI_DOC || multiDocSelect.has(document.id) ? () => onCheckSelect(document.id) : undefined}
+                isChecked={multiDocSelect.has(document.id)}
                 progress={(document.readerPosition / document.content.length) * 100}
                 secondsRemaining={(document.content.length - document.readerPosition) / LETTERS_PER_SECOND}
               >

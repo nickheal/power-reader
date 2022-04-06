@@ -5,5 +5,6 @@ export enum Routes {
   EditDocument = '/document?id={id}',
   Introduction = '/introduction',
   Reader = '/reader?id={id}',
+  MultiReader = '/multi-reader?ids={ids}',
   Setup = '/setup'
 }

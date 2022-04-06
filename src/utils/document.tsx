@@ -1,5 +1,6 @@
 import { User } from '../state/user';
 
+export const MAX_DOCS_FOR_MULTI_DOC = 2;
 export const LETTERS_PER_SECOND = 60;
 
 function snipFirstLine(document: string, maxLineLength: number): string[] {
@@ -51,7 +52,18 @@ export function getDocument(user: User) {
   if (typeof window !== 'undefined') {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    return user.documents.find(document => document.id === urlParams.get('id'))
+    return user.documents.find(document => document.id === urlParams.get('id'));
+  }
+
+  return null;
+}
+
+export function getMultiDocument(user: User) {
+  if (typeof window !== 'undefined') {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const ids = JSON.parse(urlParams.get('ids')!);
+    return user.documents.filter(document => ids.includes(document.id));
   }
 
   return null;

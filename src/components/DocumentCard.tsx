@@ -1,6 +1,7 @@
 import React from 'react';
+import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import { createUseStyles } from 'react-jss';
-import { FiEdit3, FiTrash2 } from 'react-icons/fi';
+import { FiEdit3, FiSquare, FiCheckSquare, FiTrash2 } from 'react-icons/fi';
 import Button from './Button';
 import ConfirmButton from './ConfirmButton';
 
@@ -9,9 +10,13 @@ interface Props {
   header: string;
   onEdit?: () => void;
   onDelete?: () => void;
+  onCheckSelect?: () => void;
+  isChecked?: boolean;
   progress: number;
   secondsRemaining: number;
 }
+
+const TRANSITION_TIME = 200;
 
 const useStyles = createUseStyles({
   container: {
@@ -38,33 +43,6 @@ const useStyles = createUseStyles({
       '&:nth-child(3n - 2)': {
         marginLeft: 0
       }
-    },
-
-    '&.enter': {
-      height: 0,
-      marginBottom: 0
-    },
-
-    '&.enter-active': {
-      height: 116,
-      opacity: 1,
-      transition: 'height 300ms, opacity 300ms'
-    },
-
-    '&.enter-done': {
-      height: 'auto',
-      marginBottom: 16
-    },
-
-    '&.exit': {
-      height: 116,
-      marginBottom: 0
-    },
-
-    '&.exit-active': {
-      height: 0,
-      opacity: 0,
-      transition: 'height 300ms, opacity 300ms'
     }
   },
   top: {
@@ -112,6 +90,29 @@ const useStyles = createUseStyles({
     fontSize: 10,
     marginLeft: 16,
     opacity: 0.9
+  },
+  buttonTransition: {
+    '&-enter': {
+      transform: 'scale(0)'
+    },
+
+    '&-enter-active': {
+      transform: 'scale(1)',
+      transition: `transform ${TRANSITION_TIME}ms cubic-bezier(0.34, 1.56, 0.64, 1)`
+    },
+
+    '&-enter-done': {
+      transform: 'scale(1)'
+    },
+
+    '&-exit': {
+      transform: 'scale(1)'
+    },
+
+    '&-exit-active': {
+      transform: 'scale(0)',
+      transition: `transform ${TRANSITION_TIME}ms cubic-bezier(0.34, 1.56, 0.64, 1)`
+    }
   }
 });
 
@@ -144,6 +145,19 @@ export default function Card(props: Props) {
           <span className={classes.remainingTime}>{ secondsToString(props.secondsRemaining) }</span>
         </p>
         <div className={classes.actionContainer}>
+          {props.onCheckSelect || props.isChecked ? (
+            <Button type="button" onClick={props.onCheckSelect}>
+              <SwitchTransition>
+                <CSSTransition
+                  key={props.isChecked ? 'true' : 'false'}
+                  timeout={TRANSITION_TIME}
+                  classNames={classes.buttonTransition}
+                >
+                  {props.isChecked ? <FiCheckSquare color="#ffcccc" size="1.5em" /> : <FiSquare color="#ffcccc" size="1.5em" />}
+                </CSSTransition>
+              </SwitchTransition>
+            </Button>
+          ) : null}
           {props.onEdit ? (
             <Button type="button" onClick={props.onEdit}>
               <FiEdit3 color="#ffcccc" size="1.5em" />

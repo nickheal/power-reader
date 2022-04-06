@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { navigate } from 'gatsby';
 import { createUseStyles } from 'react-jss';
 import { Routes } from '../utils/routes';
 import { useUserState } from '../state/user';
-import { documentToLines, getActiveLines, getDocument, LETTERS_PER_SECOND } from '../utils/document';
+import { getDocument, LETTERS_PER_SECOND } from '../utils/document';
 import PlayerControls from '../components/PlayerControls';
+import ReadZone from '../components/ReadZone';
 
 const READ_SPEED = 1 / LETTERS_PER_SECOND;
-
-type Styles = {
-  lineProgress: number;
-}
 
 const useStyles = createUseStyles({
   '@global': {
@@ -28,47 +25,10 @@ const useStyles = createUseStyles({
     '&:hover, &:focus': {
       opacity: 1
     }
-  },
-  readZone: {
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  readZoneCentered: {
-    border: 0,
-    borderLeft: 'solid 2px #33333333',
-    display: 'inline-block',
-    padding: [16, 32]
-  },
-  textLine: {
-    fontSize: 24,
-    margin: [8, 0],
-    position: 'relative',
-
-    '&::after': {
-      backdropFilter: 'blur(2px)',
-      background: '#0000000f',
-      bottom: 0,
-      boxShadow: '3px 3px 10px #00000011',
-      content: '""',
-      display: 'block',
-      left: 0,
-      height: '100%',
-      position: 'absolute',
-      transform: ({ lineProgress }: Styles) => `scaleX(${lineProgress / 100})`,
-      transformOrigin: 'left',
-      transition: 'transform 20ms linear',
-      width: '100%',
-      zIndex: -1
-    }
-  },
-  paraTextLine: {
-    fontSize: 24,
-    margin: [8, 0],
-    opacity: 0.1
   }
 });
 
-export default function Dashboard() {
+export default function Reader() {
   const [user, setUser] = useUserState();
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -119,41 +79,12 @@ export default function Dashboard() {
       documents: updateDocuments
     });
   }
-
-  const { content, name, readerPosition } = document;
-
-  const lines = documentToLines(content);
-
-  const { activeLines, lineProgress } = getActiveLines(lines, readerPosition);
-
-  useEffect(() => {
-    if (!isPlaying || typeof window === 'undefined') return;
-    if (document.readerPosition >= document.content.length) {
-      setIsPlaying(false);
-      return;
-    };
-  
-    const timeout = window.setTimeout(() => {
-      const updateDocuments = [...user.documents];
-      updateDocuments[updateDocuments.indexOf(document)] = {
-        ...updateDocuments[updateDocuments.indexOf(document)],
-        readerPosition: updateDocuments[updateDocuments.indexOf(document)].readerPosition + 1
-      };
-      setUser({
-        ...user,
-        documents: updateDocuments
-      });
-    }, READ_SPEED * 1000);
-
-    return () => window.clearTimeout(timeout);
-  }, [document, isPlaying, user, setUser]);
-
-  const classes = useStyles({ lineProgress });
+  const classes = useStyles();
 
   return (
     <main>
       <section className={classes.controlsContainer}>
-        <h1>{ name }</h1>
+        <h1>{ document.name }</h1>
         <PlayerControls
           isPlaying={isPlaying}
           onRewind={onRewind}
@@ -162,15 +93,12 @@ export default function Dashboard() {
           onRestart={onRestart}
         />
       </section>
-      <section>
-        <div className={classes.readZone}>
-          <div className={classes.readZoneCentered}>
-            <p className={classes.paraTextLine}>{ activeLines[0] }</p>
-            <p className={classes.textLine}>{ activeLines[1] }</p>
-            <p className={classes.paraTextLine}>{ activeLines[2] }</p>
-          </div>
-        </div>
-      </section>
+      <ReadZone
+        document={document}
+        isPlaying={isPlaying}
+        onComplete={onPlayPause}
+        speed={READ_SPEED}
+      />
     </main>
   );
 }
