@@ -19,6 +19,11 @@ export default function Introduction() {
       <ul>
         <li>
           <P>
+            Add keyboard shortcuts for the player.
+          </P>
+        </li>
+        <li>
+          <P>
             Customisable read speed.
           </P>
         </li>
