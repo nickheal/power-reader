@@ -15,9 +15,10 @@ export type ReaderDocument = {
 }
 
 export type User = {
-  id: string;
-  firstName: string;
   documents: ReaderDocument[];
+  firstName: string;
+  id: string;
+  readSpeed: number;
 }
 
 export const userState = atom<User>({
@@ -44,8 +45,9 @@ type CreateUser = {
 
 export function createUser({ firstName }: CreateUser) {
   return {
-    id: uuidv4(),
+    documents: [],
     firstName,
-    documents: []
+    id: uuidv4(),
+    readSpeed: 60,
   }
 }

@@ -1,7 +1,6 @@
 import { User } from '../state/user';
 
 export const MAX_DOCS_FOR_MULTI_DOC = 2;
-export const LETTERS_PER_SECOND = 60;
 
 function snipFirstLine(document: string, maxLineLength: number): string[] {
   for (let i = maxLineLength; i >= 0; i--) {

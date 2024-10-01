@@ -10,7 +10,8 @@ import Heading, { Tag } from '../components/Heading';
 import Card from '../components/Card';
 import DocumentCard from '../components/DocumentCard';
 import MultiDocModeBanner from '../components/MultiDocModeBanner';
-import { LETTERS_PER_SECOND, MAX_DOCS_FOR_MULTI_DOC } from '../utils/document';
+import { MAX_DOCS_FOR_MULTI_DOC } from '../utils/document';
+import { UnboundInput } from '../components/Input';
 
 const CONTENT_PREVIEW_LENGTH = 256;
 
@@ -24,6 +25,15 @@ const useStyles = createUseStyles({
     listStyleType: 'none',
     margin: 0,
     padding: 0
+  },
+  readSpeedForm: {
+    marginBottom: 32
+  },
+  readSpeedFieldset: {
+    border: 0
+  },
+  readSpeedLabel: {
+    display: 'block'
   }
 });
 
@@ -55,6 +65,25 @@ export default function Dashboard() {
     <StandardPage>
       <Heading tag={Tag.H1}>Welcome {user?.firstName}!</Heading>
 
+      <form className={classes.readSpeedForm} onSubmit={(e) => e.preventDefault()}>
+        <fieldset className={classes.readSpeedFieldset}>
+          <UnboundInput
+            label="Preferred read speed in letters per second"
+            name="read-speed"
+            type="number"
+            min="20"
+            max="120"
+            value={user.readSpeed}
+            onInput={(e) => {
+              setUser({
+                ...user,
+                readSpeed: +e.target.value
+              });
+            }}
+          />
+        </fieldset>
+      </form>
+
       {user?.documents?.length ? (
         <>
           <MultiDocModeBanner active={multiDocSelect.size === MAX_DOCS_FOR_MULTI_DOC} docs={multiDocSelect} />
@@ -68,7 +97,7 @@ export default function Dashboard() {
                 onCheckSelect={multiDocSelect.size < MAX_DOCS_FOR_MULTI_DOC || multiDocSelect.has(document.id) ? () => onCheckSelect(document.id) : undefined}
                 isChecked={multiDocSelect.has(document.id)}
                 progress={(document.readerPosition / document.content.length) * 100}
-                secondsRemaining={(document.content.length - document.readerPosition) / LETTERS_PER_SECOND}
+                secondsRemaining={(document.content.length - document.readerPosition) / user.readSpeed}
               >
                 <p>
                   { document.readerPosition - (CONTENT_PREVIEW_LENGTH / 2) > 0 ? '...' : '' }

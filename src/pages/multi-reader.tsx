@@ -4,12 +4,11 @@ import { navigate } from 'gatsby';
 import { createUseStyles } from 'react-jss';
 import { Routes } from '../utils/routes';
 import { useUserState } from '../state/user';
-import { getMultiDocument, LETTERS_PER_SECOND } from '../utils/document';
+import { getMultiDocument } from '../utils/document';
 import PlayerControls from '../components/PlayerControls';
 import ReadZone from '../components/ReadZone';
 
 const TIME_PER_DOCUMENT = 30 * 1000;
-const READ_SPEED = 1 / LETTERS_PER_SECOND;
 const TRANSITION_TIME = 200;
 
 const useStyles = createUseStyles({
@@ -219,7 +218,7 @@ export default function MultiReader() {
             document={documents[activeDocumentIndex]}
             isPlaying={documentIsPlaying[activeDocumentIndex]}
             onComplete={() => onPlayPause()}
-            speed={READ_SPEED}
+            speed={1 / user.readSpeed}
           />
         </CSSTransition>
       </SwitchTransition>

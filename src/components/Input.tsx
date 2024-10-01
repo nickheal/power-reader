@@ -66,3 +66,21 @@ export default function Input(props: Props) {
     </>
   )
 }
+
+export function UnboundInput(props: Props) {
+  const classes = useStyles();
+
+  if (!props.name) {
+    throw new Error("Name is required for an input");
+  }
+
+  return (
+    <>
+      <label className={classes.label} htmlFor={props.name}>{ props.label }:</label>
+      <input
+        {...props}
+        className={`${classes.input} ${props.className}`}
+      />
+    </>
+  )
+}
