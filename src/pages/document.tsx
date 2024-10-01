@@ -16,28 +16,28 @@ import TextArea from '../components/TextArea';
 export default function CreateDocument() {
   const [user, setUser] = useUserState();
 
-  const existingDocument = getDocument(user!);
+  const existingDocument = getDocument(user);
 
   function onSubmit(data: any) {
     const newDocument = {
-      id: existingDocument?.id || uuidv4(),
-      name: data.name,
-      content: data.content,
+      id: existingDocument?.id ?? uuidv4(),
+      name: data.name.trim(),
+      content: data.content.trim(),
       readerPosition: 0
     }
 
     if (existingDocument) {
-      const updateDocuments = [...user!.documents];
+      const updateDocuments = [...user.documents];
       updateDocuments[updateDocuments.indexOf(existingDocument)] = newDocument;
 
       setUser({
-        ...user!,
+        ...user,
         documents: updateDocuments
       });
     } else {
       setUser({
-        ...user!,
-        documents: [...user!.documents, newDocument]
+        ...user,
+        documents: [...user.documents, newDocument]
       });
     }
 

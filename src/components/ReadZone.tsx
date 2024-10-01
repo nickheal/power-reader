@@ -24,6 +24,7 @@ const useStyles = createUseStyles({
     border: 0,
     borderLeft: 'solid 2px #33333333',
     display: 'inline-block',
+    minWidth: 728,
     padding: [16, 32]
   },
   textLine: {

@@ -3,11 +3,9 @@ import { navigate } from 'gatsby';
 import { createUseStyles } from 'react-jss';
 import { Routes } from '../utils/routes';
 import { useUserState } from '../state/user';
-import { getDocument, LETTERS_PER_SECOND } from '../utils/document';
+import { getDocument } from '../utils/document';
 import PlayerControls from '../components/PlayerControls';
 import ReadZone from '../components/ReadZone';
-
-const READ_SPEED = 1 / LETTERS_PER_SECOND;
 
 const useStyles = createUseStyles({
   '@global': {
@@ -29,6 +27,7 @@ const useStyles = createUseStyles({
 });
 
 export default function Reader() {
+  const classes = useStyles();
   const [user, setUser] = useUserState();
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -79,7 +78,6 @@ export default function Reader() {
       documents: updateDocuments
     });
   }
-  const classes = useStyles();
 
   return (
     <main>
@@ -97,7 +95,7 @@ export default function Reader() {
         document={document}
         isPlaying={isPlaying}
         onComplete={onPlayPause}
-        speed={READ_SPEED}
+        speed={1 / user.readSpeed}
       />
     </main>
   );
