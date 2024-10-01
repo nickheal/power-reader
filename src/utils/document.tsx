@@ -23,6 +23,10 @@ export function documentToLines(document: string, maxLineLength: number = 60) {
   return snipFirstLine(document, maxLineLength);
 }
 
+export function documentToWords(document: string) {
+  return document.split(/\s/).filter(_ => !!_);
+}
+
 type ActiveLines = {
   activeLines: string[];
   lineProgress: number;

@@ -68,7 +68,7 @@ export default function Dashboard() {
       <form className={classes.readSpeedForm} onSubmit={(e) => e.preventDefault()}>
         <fieldset className={classes.readSpeedFieldset}>
           <UnboundInput
-            label="Preferred read speed in letters per second"
+            label="Preferred read speed"
             name="read-speed"
             type="number"
             min="20"

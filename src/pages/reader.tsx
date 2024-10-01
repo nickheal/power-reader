@@ -6,6 +6,7 @@ import { useUserState } from '../state/user';
 import { getDocument } from '../utils/document';
 import PlayerControls from '../components/PlayerControls';
 import ReadZone from '../components/ReadZone';
+// import ReadZoneSingleWord from '../components/ReadZoneSingleWord';
 
 const useStyles = createUseStyles({
   '@global': {
