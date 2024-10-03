@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { navigate } from 'gatsby';
 import { createUseStyles } from 'react-jss';
 import { Routes } from '../utils/routes';
-import { useUserState } from '../state/user';
+import { Mode, useUserState } from '../state/user';
 import { getDocument } from '../utils/document';
 import PlayerControls from '../components/PlayerControls';
 import ReadZone from '../components/ReadZone';
-// import ReadZoneSingleWord from '../components/ReadZoneSingleWord';
+import ReadZoneSingleWord from '../components/ReadZoneSingleWord';
 
 const useStyles = createUseStyles({
   '@global': {
@@ -26,6 +26,17 @@ const useStyles = createUseStyles({
     }
   }
 });
+
+function getReadZoneComponent(mode: Mode) {
+  switch (mode) {
+    case Mode.Line:
+      return ReadZone;
+    case Mode.Word:
+      return ReadZoneSingleWord;
+    default:
+      throw new Error(`Reading mode "${mode}" not recognised.`)
+  }
+}
 
 export default function Reader() {
   const classes = useStyles();
@@ -80,6 +91,8 @@ export default function Reader() {
     });
   }
 
+  const ReadZoneComponent = getReadZoneComponent(user.mode);
+
   return (
     <main>
       <section className={classes.controlsContainer}>
@@ -92,7 +105,7 @@ export default function Reader() {
           onRestart={onRestart}
         />
       </section>
-      <ReadZone
+      <ReadZoneComponent
         document={document}
         isPlaying={isPlaying}
         onComplete={onPlayPause}

@@ -14,10 +14,16 @@ export type ReaderDocument = {
   readerPosition: number;
 }
 
+export enum Mode {
+  Line,
+  Word,
+}
+
 export type User = {
   documents: ReaderDocument[];
   firstName: string;
   id: string;
+  mode: Mode;
   readSpeed: number;
 }
 
@@ -30,13 +36,16 @@ export const userState = atom<User>({
 export const useUserState = () => {
   const currentUserState = useRecoilState(userState);
 
-  const [user] = currentUserState;
+  const [user, setUser] = currentUserState;
 
   if (typeof window !== 'undefined' && !user.firstName) {
     navigate(Routes.Introduction);
   }
 
-  return currentUserState;
+  return [{
+    ...createUser({ firstName: user.firstName }),
+    ...user,
+  }, setUser];
 }
 
 type CreateUser = {
@@ -48,6 +57,7 @@ export function createUser({ firstName }: CreateUser) {
     documents: [],
     firstName,
     id: uuidv4(),
+    mode: Mode.Line,
     readSpeed: 60,
   }
 }
