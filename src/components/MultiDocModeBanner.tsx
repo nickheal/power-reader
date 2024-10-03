@@ -63,7 +63,7 @@ export default function MultiDocModeBanner({
     >
       <aside className={classes.container}>
         <h2>Multi reader mode.</h2>
-        <p>This is another experimental reader that automates switching documents every 30s.</p>
+        <p>This is an experimental reader that automatically switches between 2 documents every 30s.</p>
         <Link to={Routes.MultiReader.replace('{ids}', encodeURIComponent(JSON.stringify([...docs])))} variant={Variant.Tertiary}>
           Read now
         </Link>

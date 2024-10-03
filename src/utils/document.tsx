@@ -23,6 +23,10 @@ export function documentToLines(document: string, maxLineLength: number = 60) {
   return snipFirstLine(document, maxLineLength);
 }
 
+export function documentToWords(document: string) {
+  return document.split(/\s/);
+}
+
 type ActiveLines = {
   activeLines: string[];
   lineProgress: number;
@@ -38,6 +42,7 @@ export function getActiveLines(lines: string[], readerPosition: number): ActiveL
       const lineEnd = scanPosition;
       const lineLength = lineEnd - lineStart;
       const linePosition = readerPosition - lineStart;
+      console.log(scanPosition, readerPosition);
       return {
         activeLines: [lines[i - 1] || ' ', lines[i], lines[i + 1] || ' '],
         lineProgress: (linePosition / lineLength) * 100

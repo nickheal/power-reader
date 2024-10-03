@@ -4,6 +4,7 @@ import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import { FiFastForward, FiGrid, FiPlay, FiPause, FiRewind, FiRotateCcw } from 'react-icons/fi';
 import { createUseStyles } from 'react-jss';
 import { Routes } from '../utils/routes';
+import { Mode, useUserState } from '../state/user';
 
 type Props = {
   isPlaying: boolean;
@@ -15,9 +16,8 @@ type Props = {
 
 const TRANSITION_TIME = 150;
 
-const useStyles = createUseStyles({
-  button: {
-    backdropFilter: 'blur(2px)',
+const buttonCss = {
+  backdropFilter: 'blur(2px)',
     background: '#ffffffee',
     border: 0,
     borderRadius: 8,
@@ -33,6 +33,11 @@ const useStyles = createUseStyles({
     '& svg': {
       display: 'block'
     }
+}
+
+const useStyles = createUseStyles({
+  button: {
+    ...buttonCss
   },
   buttonTransition: {
     '&-enter': {
@@ -56,11 +61,50 @@ const useStyles = createUseStyles({
       transform: 'scale(0)',
       transition: `transform ${TRANSITION_TIME}ms cubic-bezier(0.34, 1.56, 0.64, 1)`
     }
+  },
+  groupedButton: {
+    ...buttonCss,
+    borderRight: 'solid 2px #f7f7f7',
+    marginLeft: 0,
+    marginRight: 0,
+    opacity: 0.4,
+    position: 'relative',
+
+    '&:first-of-type': {
+      borderRadius: [8, 0, 0, 8],
+    },
+
+    '&:last-of-type': {
+      borderRadius: [0, 8, 8, 0],
+      borderRight: 0,
+    },
+  },
+  groupedButtonActive: {
+    opacity: 1
+  },
+  groupedButtons: {
+    display: 'inline-block',
+    margin: [0, 8],
   }
 });
 
 export default function PlayerControls(props: Props) {
   const classes = useStyles();
+  const [user, setUser] = useUserState();
+
+  function onModeLine() {
+    setUser({
+      ...user,
+      mode: Mode.Line
+    })
+  }
+
+  function onModeWord() {
+    setUser({
+      ...user,
+      mode: Mode.Word
+    })
+  }
 
   return (
     <>
@@ -79,6 +123,10 @@ export default function PlayerControls(props: Props) {
       </button>
       <button className={classes.button} onClick={props.onFastForward}><FiFastForward /></button>
       <button className={classes.button} onClick={props.onRestart}><FiRotateCcw /></button>
+      <div className={classes.groupedButtons}>
+        <button className={`${classes.groupedButton}${user.mode === Mode.Line ? ` ${classes.groupedButtonActive}` : ''}`} onClick={onModeLine}>Line</button>
+        <button className={`${classes.groupedButton}${user.mode === Mode.Word ? ` ${classes.groupedButtonActive}` : ''}`} onClick={onModeWord}>Word</button>
+      </div>
     </>
   )
 }
